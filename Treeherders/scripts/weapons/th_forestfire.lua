@@ -69,15 +69,20 @@ Treeherders_ForestFire_AB = Treeherders_ForestFire_B:new
 function Treeherders_ForestFire:GetTargetArea(point)
 	local ret = PointList()
 	
-	-- if we aren't on a forest then return the point we are attack
+	-- always can just not move
+	ret:push_back(point)
+	
+	-- if we are on a forest then return the point we can move to in that forest
 	-- this is needed with how getGroupingOfSpaces works since it consideres the
 	-- point to be of the right type or as part of the boarder
-	if not forestUtils.isAForest(point) then
-		ret:push_back(point)
-	else
+	-- TODO Webbing check?
+	if forestUtils.isAForest(point) then
 		local forestGroup = forestUtils:getGroupingOfSpaces(point, forestUtils.isAForest)
 		for k, v in pairs(forestGroup.group) do
-			ret:push_back(Point(v))
+			-- only add if the space isn't occupied already
+			if not Board:IsPawnSpace(Point(v)) then
+				ret:push_back(Point(v))
+			end
 		end
 	end 
 	return ret
@@ -86,7 +91,7 @@ end
 function Treeherders_ForestFire:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
 	if p1 ~= p2 then
-		ret:AddMove(Board:GetPath(p1, p2, Pawn:GetPathProf()), FULL_DELAY)
+		ret:AddTeleport(p1,p2,FULL_DELAY)
 	else
 		ret:AddDamage(SpaceDamage(p1,0))
 	end

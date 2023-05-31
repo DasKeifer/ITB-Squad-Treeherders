@@ -73,7 +73,6 @@ function Treeherders_Treevenge:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
 	
 	--determine the damage
-	LOG("Forest fires: ".. forestUtils.arrayLength(forestUtils:getSpaces(forestUtils.isAForestFire)) .. ", damage per:" .. self.ForestsPerDamage)
 	local damage = self.Damage + math.ceil(forestUtils.arrayLength(forestUtils:getSpaces(forestUtils.isAForestFire)) / self.ForestsPerDamage)
 	
 	--cap it

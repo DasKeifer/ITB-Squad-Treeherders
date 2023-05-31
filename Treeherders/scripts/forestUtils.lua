@@ -20,20 +20,13 @@ function forestUtils.isAForestFire(p)
 		
 	--normal logic
 	else
-		return forestUtils:getTileFireType(p) == 2 or 
+		return Board:IsForestFire(p) or 
 				(Board:GetTerrain(p) == TERRAIN_FOREST and Board:IsFire(p))
 	end
 end
 
 function forestUtils.isAForest(p)
-	--do special logic for the tip since we cannot use getTileFireType
-	if modapiext.weapon:isTipImage() then
-		return Board:GetTerrain(p) == TERRAIN_FOREST
-		
-	--normal logic
-	else
-		return Board:GetTerrain(p) == TERRAIN_FOREST or forestUtils.isAForestFire(p)
-	end
+	return Board:GetTerrain(p) == TERRAIN_FOREST or forestUtils.isAForestFire(p)
 end
 
 -------------------  SPACE DAMAGE FUNCTIONS  ----------------------------
@@ -69,7 +62,7 @@ function forestUtils:getSpaceDamageWithoutSettingFire(p, damage, pushDir, allyIm
 	end
 	
 	-- For some reason we AE, we have to reset if its a forest or else
-	-- the forest will disappear
+	-- the forest will disappear (but not forest fires)
 	if Board:GetTerrain(p) == TERRAIN_FOREST then
 		spaceDamage.iTerrain = TERRAIN_FOREST
 	end

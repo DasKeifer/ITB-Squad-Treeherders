@@ -101,7 +101,8 @@ function Treeherders_ViolentGrowth:GetSkillEffect(p1, p2)
 		local vekPositions = {}
 		for _, v in pairs(extract_table(Board:GetPawns(TEAM_ENEMY))) do
 			local vPos = Board:GetPawnSpace(v)
-			if not forestUtils.isAForest(vPos) then
+			-- exclude if the vek is the target or already is in a forest
+			if (vPos ~= p2) and not forestUtils.isAForest(vPos) then
 				vekPositions[forestUtils:getSpaceHash(vPos)] = vPos
 			end
 		end

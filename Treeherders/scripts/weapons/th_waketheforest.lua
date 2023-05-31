@@ -1,3 +1,4 @@
+--TODO: Choosing sunken tiles -- same modapiext issue?
 Treeherders_Passive_WakeTheForest = PassiveSkill:new
 {
 	Name = "Wake the Forest",
@@ -379,7 +380,11 @@ end
 
 ------------------- MAIN HOOK FUNCTIONS ---------------------------
 
---function to handle the postEnvironment hook functionality
+-- function to handle the postEnvironment hook functionality
+-- When post environment is called, it appears the board isn't updated at that point
+-- It doesn't recognize that tiles became water in the flood event. next turn hook can
+-- be used but it happens after vek attack so it defeats the point of the seek mech
+-- ability
 function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_PostEnvironmentHook(mission)
 	--always re-evaluate the icons - this covers environment effects like floods
 	self:RefreshForestArmorIconToAllMechs()
@@ -387,23 +392,29 @@ function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_PostEnvironment
 	--StartEffect will be true for the first time and env effect is called
 	--EndEffect will be false for the last time and env effect is called
 	--if this is not the last environment effect, return
-	if mission.LiveEnvironment.EndEffect then	
+	
+	if mission.LiveEnvironment.eventDispatched ~= nil then	
 		return
 	end
 
 	--floraform the spaces
-	--TODO this will sometimes terraform flooded spaces...
 	self:FloraformSpaces()
 end
 
---local prevMoveLocation = nil
-function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_SkillBuildHook(mission, pawn, weaponId, p1, p2, skillFx)
-	--LOG(weaponId)
-
+-- Skill build hooks
+function Treeherders_Passive_WakeTheForest:SkillBuildHook(weaponId, p1, skillFx)
 	if weaponId ~= "Move" then	
 		self:AddUpdateQueuedAttack(weaponId, p1, skillFx)
 		self:RefreshForestArmorIconToAllMechs()
 	end
+end
+
+function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_SkillBuildHook(mission, pawn, weaponId, p1, p2, skillFx)
+	return self:SkillBuildHook(weaponId, p1, skillFx)
+end
+
+function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_FinalEffectBuildHook(mission, pawn, weaponId, p1, p2, p3, skillEffect)
+	return self:SkillBuildHook(weaponId, p1, skillFx)
 end
 
 --Clear the queued pushes. They will be re-added by the skill build hooks. We need to do this each time
@@ -412,9 +423,20 @@ function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_SkillEndHook(mi
 	self:RemoveQueuedAttacks(pawn:GetId())
 end
 
+function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_FinalEffectEndHook(mission, pawn, weaponId, p1, p2)
+	self:RemoveQueuedAttacks(pawn:GetId())
+end
+
 function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_QueuedSkillEndHook(mission, pawn, weaponId, p1, p2)
 	self:RemoveQueuedAttacks(pawn:GetId())
 end
 
+function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_QueuedFinalEffectEndHook(mission, pawn, weaponId, p1, p2)
+	self:RemoveQueuedAttacks(pawn:GetId())
+end
+
 passiveEffect:addPassiveEffect("Treeherders_Passive_WakeTheForest", 
-		{"skillBuildHook", "skillEndHook", "queuedSkillEndHook", "postEnvironmentHook"})
+		{"skillBuildHook", "finalEffectBuildHook", 
+		"skillEndHook", "finalEffectEndHook",
+		"queuedSkillEndHook", "queuedFinalEffectEndHook",
+		"postEnvironmentHook"})
