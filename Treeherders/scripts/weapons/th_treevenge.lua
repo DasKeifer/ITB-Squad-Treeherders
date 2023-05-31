@@ -1,6 +1,8 @@
-Eplanum_TH_Treevenge = Skill:new
+Treeherders_Treevenge = Skill:new
 {
+	Name = "Tree-venge"
 	Class = "Prime",
+	Description = "Smash an adjacent tile and push surrounding tiles. Target damage increases for each forest fire to a max of four",
 	Icon = "weapons/prime_th_treevenge.png",
 	Rarity = 1,
 	
@@ -11,7 +13,6 @@ Eplanum_TH_Treevenge = Skill:new
 	PathSize = 1,
 	Projectile = false,
     Damage = 2,
-	
     PowerCost = 0,
     Upgrades = 2,
     UpgradeCost = { 1, 2 },
@@ -26,8 +27,8 @@ Eplanum_TH_Treevenge = Skill:new
 		Fire = Point(3,1),
 	},
 	
+	--custom
 	BouncePerDamage = 3,
-	
 	DoesSplashDamage = false,
 	GenForestTarget = true,
 	ForestsPerDamage = 1,
@@ -35,8 +36,10 @@ Eplanum_TH_Treevenge = Skill:new
 	BuildingImmune = false,
 }
 
-Eplanum_TH_Treevenge_A = Eplanum_TH_Treevenge:new
+Weapon_Texts.Treeherders_Treevenge_Upgrade1 = "Building Immune"
+Treeherders_Treevenge_A = Treeherders_Treevenge:new
 {
+	UpgradeDescription = "Buildings do not take damage from this attack",
 	BuildingImmune = true,
     TipImage = {
 		Unit = Point(2,3),
@@ -49,17 +52,19 @@ Eplanum_TH_Treevenge_A = Eplanum_TH_Treevenge:new
 	},
 }
 
-Eplanum_TH_Treevenge_B = Eplanum_TH_Treevenge:new
+Weapon_Texts.Treeherders_Treevenge_Upgrade2 = "Splash Damage"
+Treeherders_Treevenge_B = Treeherders_Treevenge:new
 {
+	UpgradeDescription = "Surrounding tiles take half damage of the target damage in addition to being pushed",
 	DoesSplashDamage = true,
 }
 
-Eplanum_TH_Treevenge_AB = Eplanum_TH_Treevenge_B:new
+Treeherders_Treevenge_AB = Treeherders_Treevenge_B:new
 {
 	BuildingImmune = true,
 }
 
-function Eplanum_TH_Treevenge:GetSkillEffect(p1, p2)
+function Treeherders_Treevenge:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
 	
 	--determine the damage

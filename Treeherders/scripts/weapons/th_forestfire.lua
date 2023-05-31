@@ -1,17 +1,30 @@
-Eplanum_TH_ForestFire = ArtilleryDefault:new
-{
-    Class = "Ranged",
-    Icon = "weapons/ranged_th_forestFirer.png",
-	LaunchSound = "/weapons/artillery_volley",
-	ImpactSound = "/impact/generic/explosion",
-	UpShot = "effects/shotup_th_deadtree.png",
-	OuterAnimation = "airpush_",
+Treeherders_ForestFire = ArtilleryDefault:new{
+	Name = "Forest Fire",
+	Description = "Fire dead trees from any conjoint forest, pushing attacked tiles. Creates a forest behind this mech",
+	Class = "Ranged",
+	Icon = "weapons/ranged_th_forestFirer.png",
 	Rarity = 1,
+	Damage = 1,
+	PowerCost = 1,
+	LaunchSound = "/weapons/artillery_volley",
+	ImpactSound = "/impact/generic/explosion",	
+	UpShot = "effects/shotup_th_deadtree.png",
+	Explosion = "",
+	BounceAmount = forestUtils.floraformBounce,
+	Upgrades = 2,
+	UpgradeCost = { 1, 3 },
 	
-    PowerCost = 1,
-    Upgrades = 2,
-    UpgradeCost = { 1, 3 },
+	-- Range
+	ArtilleryStart = 2,
+	ArtillerySize = 4,
 	
+	-- Custom
+	DamageOuter = 1,
+	BounceOuterAmount = 2,
+	BuildingDamage = true,
+	AdaptiveRecoilFlora = false,
+	
+	--TipImage
     TipImage = {
 		Unit = Point(2,3),
 		Target = Point(2,1),
@@ -20,37 +33,31 @@ Eplanum_TH_ForestFire = ArtilleryDefault:new
 		Forest = Point(3,3),
 		Forest2 = Point(2,4),
 	},
-	
-	ArtilleryStart = 2,
-	ArtillerySize = 4,
-	
-	Damage = 1,
-	DamageOuter = 1,
-	BuildingDamage = true,
-	BounceAmount = forestUtils.floraformBounce,
-	BounceOuterAmount = 2,
-	
-	AdaptiveRecoilFlora = false,
 }
 
-Eplanum_TH_ForestFire_A = Eplanum_TH_ForestFire:new
+Weapon_Texts.Treeherders_ForestFire_Upgrade1 = "Building Immune"
+Treeherders_ForestFire_A = Treeherders_ForestFire:new
 {
+	UpgradeDescription = "Buildings do not take damage from this attack",
 	BuildingDamage = false,
 }
 
---TODO make increase based on adjacent?
-Eplanum_TH_ForestFire_B = Eplanum_TH_ForestFire:new
+--TODO make increase based on adjacent forests?
+Weapon_Texts.Treeherders_ForestFire_Upgrade2 = "+2 Damage"
+Treeherders_ForestFire_B = Treeherders_ForestFire:new
 {
+	UpgradeDescription = "The target takes two more damage",
 	UpShot = "effects/shotup_th_deadtree_3.png",
 	Damage = 3,
 	DamageOuter = 1,
 }
 
-Eplanum_TH_ForestFire_AB = Eplanum_TH_ForestFire_B:new
+Treeherders_ForestFire_AB = Treeherders_ForestFire_B:new
 {
 	BuildingDamage = false,
 }
 
+-- TODO: Rework to instead allow mech to move to any forest space?
 function Eplanum_TH_ForestFire:GetTargetArea(point)
 	--Get all spaces in the grouping
 	local forestGroup = forestUtils:getGroupingOfSpaces(point, forestUtils.isAForest)

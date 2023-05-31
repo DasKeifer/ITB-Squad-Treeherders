@@ -1,7 +1,9 @@
-Eplanum_TH_ViolentGrowth = Skill:new
+Treeherders_ViolentGrowth = Skill:new
 {
+	Name = "Violent Growth"
     Class = "Science",
-    Icon = "weapons/science_th_violentGrowth.png",
+    Description = "Plants a forest in an unforested tile otherwise cancels target's attack. Expands conjoint forests one tile towards the closest enemy. Forest generation damages enemies",
+	Icon = "weapons/science_th_violentGrowth.png",
 	Rarity = 1,
 	
 	Explosion = "",
@@ -26,6 +28,7 @@ Eplanum_TH_ViolentGrowth = Skill:new
 		Forest2 = Point(1,2),
 	},
 	
+	-- custom options
 	ForestDamageBounce = -2,
 	NonForestBounce = 2,
 	ForestGenBounce = forestUtils.floraformBounce,
@@ -41,22 +44,26 @@ Eplanum_TH_ViolentGrowth = Skill:new
 	
 }
 
-Eplanum_TH_ViolentGrowth_A = Eplanum_TH_ViolentGrowth:new
+Weapon_Texts.Treeherders_ViolentGrowth_Upgrade1 = "Ensnare"
+Treeherders_ViolentGrowth_A = Treeherders_ViolentGrowth:new
 {
+	UpgradeDescription = "For one turn all vek in the targetted forest lose two movement (minmum of 1)",
 	SlowEnemy = true,
 }
 
-Eplanum_TH_ViolentGrowth_B = Eplanum_TH_ViolentGrowth:new
+Weapon_Texts.Treeherders_ViolentGrowth_Upgrade2 = "+2 Expansion"
+Treeherders_ViolentGrowth_B = Treeherders_ViolentGrowth:new
 {
+	UpgradeDescription = "Expand the targeted conjoint forests two extra tiles",
 	ForestToExpand = 3,
 }
 
-Eplanum_TH_ViolentGrowth_AB = Eplanum_TH_ViolentGrowth_A:new
+Treeherders_ViolentGrowth_AB = Treeherders_ViolentGrowth_B:new
 {	
-	ForestToExpand = 3,
+	SlowEnemy = true,
 }
 
-function Eplanum_TH_ViolentGrowth:GetSkillEffect(p1, p2)
+function Treeherders_ViolentGrowth:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
 	local attackDir = GetDirection(p2 - p1)
 	

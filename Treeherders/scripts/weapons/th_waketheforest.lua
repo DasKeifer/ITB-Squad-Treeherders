@@ -1,12 +1,17 @@
-Eplanum_TH_Passive_WakeTheForest = PassiveSkill:new
+Treeherders_Passive_WakeTheForest = PassiveSkill:new
 {
-	PowerCost = 1,
+	Name = "Wake the Forest"
+	Description = "Mechs on forest tiles take one less damage. Randomly expands forests two tiles each turn",
 	Icon = "weapons/passives/passive_th_forestArmor.png",
+	Rarity = 1,
+	
+	PowerCost = 1,
+	Damage = 0,
+	
 	Upgrades = 2,
 	UpgradeCost = {1, 1},
 	
-	Damage = 0,
-	
+	-- custom options
 	ForestArmor = true,
 	ForestsToGen = 2,
 	Evacuate = false,
@@ -20,8 +25,10 @@ Eplanum_TH_Passive_WakeTheForest = PassiveSkill:new
 	}
 }
 
-Eplanum_TH_Passive_WakeTheForest_A = Eplanum_TH_Passive_WakeTheForest:new
+Weapon_Texts.Treeherders_Passive_WakeTheForest_Upgrade1 = "Tree-vacuate"
+Treeherders_Passive_WakeTheForest_A = Treeherders_Passive_WakeTheForest:new
 {	
+	UpgradeDescription = "When a mech takes damage on a forest and would be set on fire, it is pushed to a safe adjacent tile (prefs rel. to atk: right, left, same, opposite)",
 	TipImage = {
 		Unit = Point(2, 1),
 		CustomPawn = "Scorpion2",
@@ -31,8 +38,11 @@ Eplanum_TH_Passive_WakeTheForest_A = Eplanum_TH_Passive_WakeTheForest:new
 	
 	Evacuate = true,
 }
-Eplanum_TH_Passive_WakeTheForest_B = Eplanum_TH_Passive_WakeTheForest:new
+
+Weapon_Texts.Treeherders_Passive_WakeTheForest_Upgrade2 = "Seek Mech"
+Treeherders_Passive_WakeTheForest_B = Treeherders_Passive_WakeTheForest:new
 {
+	UpgradeDescription = "When expanding forests, tiles with mechs will be preferred for expansion",
 	TipImage = {
 		Unit = Point(2, 2),
 		CustomPawn = "TH_ArbiformerMech",
@@ -42,15 +52,15 @@ Eplanum_TH_Passive_WakeTheForest_B = Eplanum_TH_Passive_WakeTheForest:new
 	SeekMech = true,
 }
 
-Eplanum_TH_Passive_WakeTheForest_AB = Eplanum_TH_Passive_WakeTheForest_A:new
+Treeherders_Passive_WakeTheForest_AB = Treeherders_Passive_WakeTheForest_B:new
 {
-	SeekMech = true,
+	Evacuate = true,
 }
 
 ------------------- UPGRADE PREVIEWS ---------------------------
 
 --only a preview for passive skills
-function Eplanum_TH_Passive_WakeTheForest:GetSkillEffect(p1, p2)
+function Treeherders_Passive_WakeTheForest:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
 	
 	Board:SetTerrainIcon(Point(2, 2), "forestArmor")
@@ -63,7 +73,7 @@ function Eplanum_TH_Passive_WakeTheForest:GetSkillEffect(p1, p2)
 end
 
 --only a preview for passive skills
-function Eplanum_TH_Passive_WakeTheForest_A:GetSkillEffect(p1, p2)
+function Treeherders_Passive_WakeTheForest_A:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
 	
 	Board:SetTerrainIcon(Point(2, 2), "forestArmor")
@@ -79,7 +89,7 @@ function Eplanum_TH_Passive_WakeTheForest_A:GetSkillEffect(p1, p2)
 end
 
 --only a preview for passive skills
-function Eplanum_TH_Passive_WakeTheForest_B:GetSkillEffect(p1,p2)
+function Treeherders_Passive_WakeTheForest_B:GetSkillEffect(p1,p2)
 	local ret = SkillEffect()
 	
 	forestUtils:floraformSpace(ret, Point(2, 2))
@@ -90,9 +100,9 @@ end
 
 ------------------- FLORAFORM SPACES ---------------------------
 
-function Eplanum_TH_Passive_WakeTheForest:FloraformSpaces()
+function Treeherders_Passive_WakeTheForest:FloraformSpaces()
 	
-	local randId = "Eplanum_TH_Passive_WakeTheForest"..tostring(Pawn:GetId())
+	local randId = "Treeherders_Passive_WakeTheForest"..tostring(Pawn:GetId())
 	
 	local effect = SkillEffect()
 	
@@ -136,9 +146,9 @@ function Eplanum_TH_Passive_WakeTheForest:FloraformSpaces()
 end
 
 ------------------- FOREST ARMOR AND TREEVAC ---------------------------
-Eplanum_TH_Passive_WakeTheForest.storedForestArmorIcon = {}
+Treeherders_Passive_WakeTheForest.storedForestArmorIcon = {}
 
-function Eplanum_TH_Passive_WakeTheForest:SetForestArmorIcon(id, point, dir)
+function Treeherders_Passive_WakeTheForest:SetForestArmorIcon(id, point, dir)
 	self:UnsetPrevForestArmorIcon(id)
 	
 	if self.Evacuate then
@@ -154,14 +164,14 @@ function Eplanum_TH_Passive_WakeTheForest:SetForestArmorIcon(id, point, dir)
 	self.storedForestArmorIcon[id] = point
 end
 
-function Eplanum_TH_Passive_WakeTheForest:UnsetPrevForestArmorIcon(id)
+function Treeherders_Passive_WakeTheForest:UnsetPrevForestArmorIcon(id)
 	if self.storedForestArmorIcon[id] then
 		Board:SetTerrainIcon(self.storedForestArmorIcon[id], "")
 		self.storedForestArmorIcon[id] = nil;
 	end
 end
 
-function Eplanum_TH_Passive_WakeTheForest:UpdateForestArmorForMechAtSpace(id, point, dir)
+function Treeherders_Passive_WakeTheForest:UpdateForestArmorForMechAtSpace(id, point, dir)
 	if forestUtils.isAForest(point) then
 		self:SetForestArmorIcon(id, point, dir)
 	else
@@ -169,16 +179,16 @@ function Eplanum_TH_Passive_WakeTheForest:UpdateForestArmorForMechAtSpace(id, po
 	end
 end
 
-Eplanum_TH_Passive_WakeTheForest.queuedAttacks = {}
-Eplanum_TH_Passive_WakeTheForest.queuedAttacksOrigins = {}
-Eplanum_TH_Passive_WakeTheForest.queuedAttacksWeaponId = {}
-Eplanum_TH_Passive_WakeTheForest.pawnIdToAttack = {}
-Eplanum_TH_Passive_WakeTheForest.pawnIdToAttackId = {}
-Eplanum_TH_Passive_WakeTheForest.attackIdToPawnId = {}
+Treeherders_Passive_WakeTheForest.queuedAttacks = {}
+Treeherders_Passive_WakeTheForest.queuedAttacksOrigins = {}
+Treeherders_Passive_WakeTheForest.queuedAttacksWeaponId = {}
+Treeherders_Passive_WakeTheForest.pawnIdToAttack = {}
+Treeherders_Passive_WakeTheForest.pawnIdToAttackId = {}
+Treeherders_Passive_WakeTheForest.attackIdToPawnId = {}
 
-Eplanum_TH_Passive_WakeTheForest.queuedEvacs = {}
+Treeherders_Passive_WakeTheForest.queuedEvacs = {}
 
-function Eplanum_TH_Passive_WakeTheForest:AddUpdateQueuedAttack(weaponId, p1, skillFx)
+function Treeherders_Passive_WakeTheForest:AddUpdateQueuedAttack(weaponId, p1, skillFx)
 	local key = weaponId..p1:GetString()
 	
 	--pawn pushes will be updated in time
@@ -214,7 +224,7 @@ function Eplanum_TH_Passive_WakeTheForest:AddUpdateQueuedAttack(weaponId, p1, sk
 	end
 end
 
-function Eplanum_TH_Passive_WakeTheForest:RemoveQueuedAttacks(pId)
+function Treeherders_Passive_WakeTheForest:RemoveQueuedAttacks(pId)
 	local attackIdx = self.pawnIdToAttack[pId]
 	if attackIdx and self.queuedAttacks[attackIdx] then
 		table.remove(self.queuedAttacks, attackIdx)
@@ -232,14 +242,14 @@ function Eplanum_TH_Passive_WakeTheForest:RemoveQueuedAttacks(pId)
 	self.pawnIdToAttackId[pId] = nil
 end
 
-function Eplanum_TH_Passive_WakeTheForest.EligibleForForestArmor(pawn)
+function Treeherders_Passive_WakeTheForest.EligibleForForestArmor(pawn)
 	if pawn:IsMech() and not pawn:IsDead() then
 		return true
 	end
 	return false
 end
 
-function Eplanum_TH_Passive_WakeTheForest:RefreshForestArmorIconToAllMechs()
+function Treeherders_Passive_WakeTheForest:RefreshForestArmorIconToAllMechs()
 	
 	--Forest armor and treevac effects for both immediate and queued attacks
 	for i = 1, #self.queuedAttacks do
@@ -256,7 +266,7 @@ function Eplanum_TH_Passive_WakeTheForest:RefreshForestArmorIconToAllMechs()
 	end
 end
 
-function Eplanum_TH_Passive_WakeTheForest:ApplyForestArmorToSpaceDamage(spaceDamage)
+function Treeherders_Passive_WakeTheForest:ApplyForestArmorToSpaceDamage(spaceDamage)
 	if self.ForestArmor then
 		if spaceDamage.iDamage ~= DAMAGE_ZERO and spaceDamage.iDamage ~= DAMAGE_DEATH then
 			if spaceDamage.iDamage ~= 1 then
@@ -268,7 +278,7 @@ function Eplanum_TH_Passive_WakeTheForest:ApplyForestArmorToSpaceDamage(spaceDam
 	end
 end
 
-function Eplanum_TH_Passive_WakeTheForest:ApplyEvacuateToSpaceDamage(spaceDamage, damagedPawn, attackOrigin, isQueued, pToIgnore, attackId)
+function Treeherders_Passive_WakeTheForest:ApplyEvacuateToSpaceDamage(spaceDamage, damagedPawn, attackOrigin, isQueued, pToIgnore, attackId)
 	--If the pawn is not on fire and on a forest and is taking damage
 	if self.Evacuate and spaceDamage.iDamage > 0 and spaceDamage.iDamage ~= DAMAGE_ZERO and spaceDamage.iDamage ~= DAMAGE_DEATH and
 					not (damagedPawn:IsShield() or damagedPawn:IsFire() or forestUtils.isAForestFire(spaceDamage.loc)) then
@@ -303,7 +313,7 @@ function Eplanum_TH_Passive_WakeTheForest:ApplyEvacuateToSpaceDamage(spaceDamage
 	end
 end
 
-function Eplanum_TH_Passive_WakeTheForest:ApplyForestArmorAndEvacuate(effect, attackOrigin, isQueued, attackId)
+function Treeherders_Passive_WakeTheForest:ApplyForestArmorAndEvacuate(effect, attackOrigin, isQueued, attackId)
 	if (self.ForestArmor or self.Evacuate) and not effect:empty() then
 
 		local evacuatedToOrAttackedSpaces = {}
@@ -330,7 +340,7 @@ function Eplanum_TH_Passive_WakeTheForest:ApplyForestArmorAndEvacuate(effect, at
 	end
 end
 
-function Eplanum_TH_Passive_WakeTheForest:getFirstAttackingNonMechId(sourceTable)
+function Treeherders_Passive_WakeTheForest:getFirstAttackingNonMechId(sourceTable)
     if sourceTable then
         --look through each item in the table for mechs
 		local foundPawnId = -1
@@ -369,7 +379,7 @@ end
 ------------------- MAIN HOOK FUNCTIONS ---------------------------
 
 --function to handle the postEnvironment hook functionality
-function Eplanum_TH_Passive_WakeTheForest:GetPassiveSkillEffect_PostEnvironmentHook(mission)
+function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_PostEnvironmentHook(mission)
 	--always re-evaluate the icons - this covers environment effects like floods
 	self:RefreshForestArmorIconToAllMechs()
 	
@@ -386,7 +396,7 @@ function Eplanum_TH_Passive_WakeTheForest:GetPassiveSkillEffect_PostEnvironmentH
 end
 
 --local prevMoveLocation = nil
-function Eplanum_TH_Passive_WakeTheForest:GetPassiveSkillEffect_SkillBuildHook(mission, pawn, weaponId, p1, p2, skillFx)
+function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_SkillBuildHook(mission, pawn, weaponId, p1, p2, skillFx)
 	--LOG(weaponId)
 
 	if weaponId ~= "Move" then	
@@ -397,13 +407,13 @@ end
 
 --Clear the queued pushes. They will be re-added by the skill build hooks. We need to do this each time
 --a move is executed. This will allow the table to be repopulated with the recalculated queued effects
-function Eplanum_TH_Passive_WakeTheForest:GetPassiveSkillEffect_SkillEndHook(mission, pawn, weaponId, p1, p2)
+function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_SkillEndHook(mission, pawn, weaponId, p1, p2)
 	self:RemoveQueuedAttacks(pawn:GetId())
 end
 
-function Eplanum_TH_Passive_WakeTheForest:GetPassiveSkillEffect_QueuedSkillEndHook(mission, pawn, weaponId, p1, p2)
+function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_QueuedSkillEndHook(mission, pawn, weaponId, p1, p2)
 	self:RemoveQueuedAttacks(pawn:GetId())
 end
 
-passiveEffect:addPassiveEffect("Eplanum_TH_Passive_WakeTheForest", 
+passiveEffect:addPassiveEffect("Treeherders_Passive_WakeTheForest", 
 		{"skillBuildHook", "skillEndHook", "queuedSkillEndHook", "postEnvironmentHook"})
