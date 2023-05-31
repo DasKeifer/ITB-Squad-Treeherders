@@ -41,7 +41,7 @@ end
 function forestUtils.terrainFloraformableMatcher(p)
 	local terrain = Board:GetTerrain(p)
 	return (terrain == TERRAIN_FOREST or terrain == TERRAIN_ROAD or terrain == TERRAIN_RUBBLE or terrain == TERRAIN_SAND) and
-			not(Board:IsAcid(p))
+			not(Board:IsAcid(p)) and not(Board:IsFire(p))
 end
 
 function forestUtils.isSpaceFloraformable(space)
