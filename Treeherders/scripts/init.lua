@@ -31,10 +31,17 @@ function mod:init()
 	require(self.scriptPath .. "mechs/th_arbiformer")
 
 	-- Weapons
-	require(self.scriptPath .. "weapons/th_treevenge")
 	require(self.scriptPath .. "weapons/th_forestfire")
+	modApi:addWeaponDrop("Treeherders_ForestFire")
+	
+	require(self.scriptPath .. "weapons/th_treevenge")
+	modApi:addWeaponDrop("Treeherders_Treevenge")
+	
 	require(self.scriptPath .. "weapons/th_violentgrowth")
+	modApi:addWeaponDrop("Treeherders_ViolentGrowth")
+	
 	require(self.scriptPath .. "weapons/th_waketheforest")
+	modApi:addWeaponDrop("Treeherders_Passive_WakeTheForest")
 	
 	-- Shop... TBD
 	-- modApi:addWeaponDrop("...")

@@ -13,7 +13,7 @@ Treeherders_ForestFire = Skill:new{
 	Explosion = "",
 	BounceAmount = forestUtils.floraformBounce,
 	Upgrades = 2,
-	UpgradeCost = { 1, 3 },
+	UpgradeCost = { 2, 3 },
 	
 	TwoClick = true,
 	
@@ -50,7 +50,7 @@ Treeherders_ForestFire_A = Treeherders_ForestFire:new
 Weapon_Texts.Treeherders_ForestFire_Upgrade2 = "+2 Damage"
 Treeherders_ForestFire_B = Treeherders_ForestFire:new
 {
-	UpgradeDescription = "The target takes two more damage",
+	UpgradeDescription = "Primary target takes two more damage",
 	UpShot = "effects/shotup_th_deadtree_3.png",
 	Damage = 3,
 }

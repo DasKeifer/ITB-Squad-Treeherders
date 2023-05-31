@@ -3,9 +3,9 @@ Treeherders_Passive_WakeTheForest = PassiveSkill:new
 	Name = "Wake the Forest",
 	Description = "Mechs on forest tiles take one less damage. Randomly expands forests two tiles each turn",
 	Icon = "weapons/passives/passive_th_forestArmor.png",
-	Rarity = 1,
+	Rarity = 2,
 	
-	PowerCost = 1,
+	PowerCost = 0,
 	Damage = 0,
 	
 	Upgrades = 2,
