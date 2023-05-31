@@ -21,22 +21,22 @@ for _, file in ipairs(files) do
 end
 
 local a = ANIMS
-a.th_forestfirer =         a.MechUnit:new{Image = "units/player/th_forestfirer.png",          PosX = -13, PosY = 6 }
-a.th_forestfirera =        a.MechUnit:new{Image = "units/player/th_forestfirer_a.png",        PosX = -13, PosY = 6, NumFrames = 8, Lengths = { 0.1, 0.15, 0.3, 0.15, 0.1, 0.15, 0.3, 0.15 }, }
-a.th_forestfirerw =        a.MechUnit:new{Image = "units/player/th_forestfirer_w.png",        PosX = -13, PosY = 6 }
-a.th_forestfirer_broken =  a.MechUnit:new{Image = "units/player/th_forestfirer_broken.png",   PosX = -13, PosY = 6 }
-a.th_forestfirerw_broken = a.MechUnit:new{Image = "units/player/th_forestfirer_w_broken.png", PosX = -13, PosY = 6 }
+a.th_forestfirer =         a.MechUnit:new{Image = "units/player/th_forestfirer.png",          PosX = -19, PosY = 5 }
+a.th_forestfirera =        a.MechUnit:new{Image = "units/player/th_forestfirer_a.png",        PosX = -19, PosY = 5, NumFrames = 4 }
+a.th_forestfirerw =        a.MechUnit:new{Image = "units/player/th_forestfirer_w.png",        PosX = -19, PosY = 5 }
+a.th_forestfirer_broken =  a.MechUnit:new{Image = "units/player/th_forestfirer_broken.png",   PosX = -19, PosY = 10 }
+a.th_forestfirerw_broken = a.MechUnit:new{Image = "units/player/th_forestfirer_w_broken.png", PosX = -19, PosY = 10 }
 a.th_forestfirer_ns =      a.MechIcon:new{Image = "units/player/th_forestfirer_ns.png" }
 
 
-truelch_SupportMech = Pawn:new{	
+Treeherders_ForestFirerMech = Pawn:new{	
 	Name = "Forest Firer",
 	Class = "Ranged",
 	Health = 3,
 	MoveSpeed = 3,
 	Image = "th_forestfirer",
 	ImageOffset = treeherdersColor,
-	SkillList = { "Eplanum_TH_ForestFire" },
+	SkillList = { "Treeherders_ForestFire" },
 	SoundLocation = "/mech/distance/artillery/",
 	DefaultTeam = TEAM_PLAYER,
 	ImpactMaterial = IMPACT_METAL,

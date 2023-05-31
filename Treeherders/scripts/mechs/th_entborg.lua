@@ -21,16 +21,11 @@ for _, file in ipairs(files) do
 end
 
 local a = ANIMS
-			Default =           { PosX = -17, PosY = -11 },
-			Animated =          { PosX = -17, PosY = -11, NumFrames = 4 },
-			Broken =            { PosX = -17, PosY = -9 },
-			Submerged =         { PosX = -17, PosY = 2 },
-			SubmergedBroken =   { PosX = -20, PosY = 4 },
-a.th_entborg =         a.MechUnit:new{Image = "units/player/th_entborg.png",   PosX = -15, PosY = -9 }
-a.th_entborga =        a.MechUnit:new{Image = "units/player/th_entborg_a.png",        PosX = -15, PosY = -9, NumFrames = 4 }
-a.th_entborgw =        a.MechUnit:new{Image = "units/player/th_entborg_w.png",        PosX = -15, PosY =  7 }
-a.th_entborg_broken =  a.MechUnit:new{Image = "units/player/th_entborg_broken.png",   PosX = -15, PosY = -9 }
-a.th_entborgw_broken = a.MechUnit:new{Image = "units/player/th_entborg_w_broken.png", PosX = -15, PosY =  7 }
+a.th_entborg =         a.MechUnit:new{Image = "units/player/th_entborg.png",          PosX = -17, PosY = -11 }
+a.th_entborga =        a.MechUnit:new{Image = "units/player/th_entborg_a.png",        PosX = -17, PosY = -11, NumFrames = 4 }
+a.th_entborgw =        a.MechUnit:new{Image = "units/player/th_entborg_w.png",        PosX = -17, PosY = -9 }
+a.th_entborg_broken =  a.MechUnit:new{Image = "units/player/th_entborg_broken.png",   PosX = -17, PosY =  2 }
+a.th_entborgw_broken = a.MechUnit:new{Image = "units/player/th_entborg_w_broken.png", PosX = -20, PosY =  4 }
 a.th_entborg_ns =      a.MechIcon:new{Image = "units/player/th_entborg_ns.png" }
 
 
@@ -41,7 +36,7 @@ Treeherders_EntborgMech = Pawn:new{
 	MoveSpeed = 4,
 	Image = "th_entborg",
 	ImageOffset = treeherdersColor,
-	SkillList = { "Eplanum_TH_Treevenge" },
+	SkillList = { "Treeherders_Treevenge" },
 	SoundLocation = "/mech/prime/punch_mech/",
 	DefaultTeam = TEAM_PLAYER,
 	ImpactMaterial = IMPACT_METAL,

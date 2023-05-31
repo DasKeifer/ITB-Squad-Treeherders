@@ -25,18 +25,18 @@ a.th_arbiformer =         a.MechUnit:new{Image = "units/player/th_arbiformer.png
 a.th_arbiformera =        a.MechUnit:new{Image = "units/player/th_arbiformer_a.png",        PosX = -22, PosY = -7, NumFrames = 4 }
 a.th_arbiformerw =        a.MechUnit:new{Image = "units/player/th_arbiformer_w.png",        PosX = -22, PosY = -6 }
 a.th_arbiformer_broken =  a.MechUnit:new{Image = "units/player/th_arbiformer_broken.png",   PosX = -22, PosY =  2 }
-a.th_arbiformerw_broken = a.MechUnit:new{Image = "units/player/th_arbiformer_w_broken.png", PosX = -22, PosY = 5 }
+a.th_arbiformerw_broken = a.MechUnit:new{Image = "units/player/th_arbiformer_w_broken.png", PosX = -22, PosY =  5 }
 a.th_arbiformer_ns =      a.MechIcon:new{Image = "units/player/th_arbiformer_ns.png" }
 
 
-Treeherders_ArbiformerMech = {	
+Treeherders_ArbiformerMech = Pawn:new{
 	Name = "Arbiformer",
 	Class = "Science",
 	Health = 2,
 	MoveSpeed = 3,
 	Image = "th_arbiformer",
 	ImageOffset = treeherdersColor,
-	SkillList = { "Eplanum_TH_ViolentGrowth", "Eplanum_TH_Passive_WakeTheForest" },
+	SkillList = { "Treeherders_ViolentGrowth", "Treeherders_Passive_WakeTheForest" },
 	SoundLocation = "/mech/science/pulse_mech/",
 	DefaultTeam = TEAM_PLAYER,
 	ImpactMaterial = IMPACT_METAL,

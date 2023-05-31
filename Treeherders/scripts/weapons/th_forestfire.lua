@@ -58,7 +58,7 @@ Treeherders_ForestFire_AB = Treeherders_ForestFire_B:new
 }
 
 -- TODO: Rework to instead allow mech to move to any forest space?
-function Eplanum_TH_ForestFire:GetTargetArea(point)
+function Treeherders_ForestFire:GetTargetArea(point)
 	--Get all spaces in the grouping
 	local forestGroup = forestUtils:getGroupingOfSpaces(point, forestUtils.isAForest)
 	
@@ -90,7 +90,7 @@ function Eplanum_TH_ForestFire:GetTargetArea(point)
 	return ret
 end
 
-function Eplanum_TH_ForestFire:GetSkillEffect(p1, p2)
+function Treeherders_ForestFire:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
 	local attackDir = GetDirection(p2 - p1)
 	

@@ -66,8 +66,8 @@ function passiveEffect:addPassiveEffect(weapon, hook, weaponIsNotPassiveOnly)
 		
 		--ensure the add function exists
 		local addHook = getAddFunctionForHook(hook)
-		assert(treeherders_modApiExt[addHook] or modApi[addHook])
-		assert(type(treeherders_modApiExt[addHook]) == "function" or type(modApi[addHook]) == "function")
+		assert(modapiext[addHook] or modApi[addHook])
+		assert(type(modapiext[addHook]) == "function" or type(modApi[addHook]) == "function")
 		
 		
 		--get the list of potential effects associated with the hook or create it
@@ -144,8 +144,8 @@ function passiveEffect.determineIfPassivesAreActive(mission)
 		if addPassiveEffectDebug then LOG("Checking mech: "..mechData.type) end
 		
 		--get the mech's weapon data
-		local primary = treeherders_modApiExt.pawn:getWeaponData(mechData, "primary")
-		local secondary = treeherders_modApiExt.pawn:getWeaponData(mechData, "secondary")
+		local primary = modapiext.pawn:getWeaponData(mechData, "primary")
+		local secondary = modapiext.pawn:getWeaponData(mechData, "secondary")
 	
 		--if it has a primary then check if it is in the passive effects list
 		if primary.id then
@@ -183,7 +183,7 @@ end
 --passive effects
 function buildPassiveEffectHookFn(hook)
 	return function(...)
-		if not (Pawn and Board and treeherders_modApiExt.weapon:isTipImage()) then
+		if not (Pawn and Board and modapiext.weapon:isTipImage()) then
 			if addPassiveEffectDebug then LOG("Evaluating active(powered) passive effects for hook: "..hook) end
 			local previousPawn = Pawn
 			if passiveEffectData.activeEffects[hook] then
@@ -216,8 +216,8 @@ function passiveEffect:addHooks()
 		local addHook = getAddFunctionForHook(hook)
 		
 		--supports hooks in both the ModLoader and the ModUtils
-		if treeherders_modApiExt[addHook] then
-			treeherders_modApiExt[addHook](treeherders_modApiExt, hookObj)
+		if modapiext[addHook] then
+			modapiext[addHook](modapiext, hookObj)
 		else --already asserted that its in one of the two
 			modApi[addHook](modApi, hookObj)
 		end
@@ -248,7 +248,7 @@ function passiveEffect:getAllMechsTables(sourceTable)
         end
     else
         --determine what table to use and call ourselves with that one
-        local region = treeherders_modApiExt.board:getCurrentRegion()
+        local region = modapiext.board:getCurrentRegion()
         local ptable = self:getAllMechsTables(SquadData)
         if not ptable and region then
             ptable = self:getAllMechsTables(region.player.map_data)

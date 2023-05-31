@@ -5,11 +5,9 @@ local mod = {
 	version = "0.10.0",
 	modApiVersion = "2.9.2",
 	gameVersion = "1.2.88",
---    dependencies = {
---        modApiExt = "1.17", NEEDED
---		memedit = "1.0.1",
---    }
---	requirements = { "kf_ModUtils" },
+	dependencies = {
+        modApiExt = "1.17",
+    }
 }
 
 function mod:init()	
@@ -27,13 +25,13 @@ function mod:init()
 	require(self.scriptPath.. "forestUtils")
 		
 	-- Pawns
-	require(self.scriptPath .. "mechs/th_arbiformer")
 	require(self.scriptPath .. "mechs/th_entborg")
 	require(self.scriptPath .. "mechs/th_forestfirer")
+	require(self.scriptPath .. "mechs/th_arbiformer")
 
 	-- Weapons
-	require(self.scriptPath .. "weapons/th_forestfire")
 	require(self.scriptPath .. "weapons/th_treevenge")
+	require(self.scriptPath .. "weapons/th_forestfire")
 	require(self.scriptPath .. "weapons/th_violentgrowth")
 	require(self.scriptPath .. "weapons/th_waketheforest")
 	
@@ -42,17 +40,9 @@ function mod:init()
 	
 	--Tutorial tips... TBD
 	--require(self.scriptPath .. "tips")
-	
-	Treeherders_ResourcePath = self.resourcePath
-	require(self.scriptPath.."images")
-
-	--Appears we have to load mod api after the images or else they work sporadically
-	--TBD Needed? treeherders_modApiExt = require(self.scriptPath.."modApiExt/modApiExt"):init()
 end
 
 function mod:load(options, version)
-
-local function load(self, options, version)
 	modApi:addSquad(
 		{
 			id = "treeherders",

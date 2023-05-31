@@ -1,6 +1,6 @@
 1. Revisit violent growth and Wake the Forest descriptions
 2. Mechs can never catch forest on fire? Might be too much a nerf on tree-venge
-
+3. Change forest firer to move anywhere in forest instead of fire from anywhere - less confusing
 
 
 Low
@@ -8,3 +8,4 @@ Low
 2. Wake the forest teraforms sunken tiles ocassionally on flood maps
 3. More animations and SFX
 	a. Fire trees from forest?
+4. Investigate "fast decay" passive

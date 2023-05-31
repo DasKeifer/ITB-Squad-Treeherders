@@ -1,6 +1,6 @@
 Treeherders_Passive_WakeTheForest = PassiveSkill:new
 {
-	Name = "Wake the Forest"
+	Name = "Wake the Forest",
 	Description = "Mechs on forest tiles take one less damage. Randomly expands forests two tiles each turn",
 	Icon = "weapons/passives/passive_th_forestArmor.png",
 	Rarity = 1,
@@ -45,7 +45,7 @@ Treeherders_Passive_WakeTheForest_B = Treeherders_Passive_WakeTheForest:new
 	UpgradeDescription = "When expanding forests, tiles with mechs will be preferred for expansion",
 	TipImage = {
 		Unit = Point(2, 2),
-		CustomPawn = "TH_ArbiformerMech",
+		CustomPawn = "Treeherders_ArbiformerMech",
 		Forest = Point(2, 3),
 	},
 	

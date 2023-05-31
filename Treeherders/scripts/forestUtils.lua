@@ -15,7 +15,7 @@ end
 
 function forestUtils.isAForestFire(p)
 	--do special logic for the tip since we cannot use getTileFireType
-	if treeherders_modApiExt.weapon:isTipImage() then
+	if modapiext.weapon:isTipImage() then
 		return Board:IsFire(p)
 		
 	--normal logic
@@ -27,7 +27,7 @@ end
 
 function forestUtils.isAForest(p)
 	--do special logic for the tip since we cannot use getTileFireType
-	if treeherders_modApiExt.weapon:isTipImage() then
+	if modapiext.weapon:isTipImage() then
 		return Board:GetTerrain(p) == TERRAIN_FOREST
 		
 	--normal logic
@@ -222,7 +222,7 @@ function forestUtils:cancelAttack(p, effect)
 end
 
 function forestUtils:getTileFireType(point)
-    local tileTable = treeherders_modApiExt.board:getTileTable(point)
+    local tileTable = modapiext.board:getTileTable(point)
 	if tileTable then
 		return tileTable.fire or 0
 	else

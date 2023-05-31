@@ -1,6 +1,6 @@
 Treeherders_Treevenge = Skill:new
 {
-	Name = "Tree-venge"
+	Name = "Tree-venge",
 	Class = "Prime",
 	Description = "Smash an adjacent tile and push surrounding tiles. Target damage increases for each forest fire to a max of four",
 	Icon = "weapons/prime_th_treevenge.png",
@@ -17,6 +17,14 @@ Treeherders_Treevenge = Skill:new
     Upgrades = 2,
     UpgradeCost = { 1, 2 },
 	
+	--custom
+	BouncePerDamage = 3,
+	DoesSplashDamage = false,
+	GenForestTarget = true,
+	ForestsPerDamage = 1,
+	DamageCap = 4,
+	BuildingImmune = false,
+	
     TipImage = {
 		Unit = Point(2,3),
 		Target = Point(2,2),
@@ -26,14 +34,6 @@ Treeherders_Treevenge = Skill:new
 		Forest = Point(3,1),
 		Fire = Point(3,1),
 	},
-	
-	--custom
-	BouncePerDamage = 3,
-	DoesSplashDamage = false,
-	GenForestTarget = true,
-	ForestsPerDamage = 1,
-	DamageCap = 4,
-	BuildingImmune = false,
 }
 
 Weapon_Texts.Treeherders_Treevenge_Upgrade1 = "Building Immune"
