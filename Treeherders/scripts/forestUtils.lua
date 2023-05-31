@@ -86,7 +86,7 @@ function forestUtils:getSpaceDamageWithoutSettingFire(p, damage, pushDir, allyIm
 	
 	--cover up the forest fire icon
 	if sDamage > 0 and sDamage ~= DAMAGE_ZERO and Board:GetTerrain(p) == TERRAIN_FOREST and not Board:IsFire(p) then
-		spaceDamage.sImageMark = "combat/icons/icon_forest_burn_cover.png"
+		spaceDamage.sImageMark = "combat/icons/icon_th_forest_burn_cover.png"
 	end
 	
 	return spaceDamage

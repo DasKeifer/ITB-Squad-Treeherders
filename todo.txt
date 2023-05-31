@@ -1,5 +1,8 @@
 1. Mechs (entborg specifically?) can never catch forest on fire? Might be too much a nerf on tree-venge
-
-Low
-1. More animations and SFX?
-	a. Forest fire burrow effect
+2. Make entborg a cyborg?
+3. Friendly fire doesn't trigger forest armor
+4. violent growth choose spot to expand to?
+5. Rework/balance forest firer upgrades
+6. WtF 0 cost
+7. Add weapons to pool
+8. Forest fire burrow effect?

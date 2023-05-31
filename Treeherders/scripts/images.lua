@@ -56,8 +56,8 @@ end
 modApi:appendAsset("img/combat/icons/damage_floraform.png", Treeherders_ResourcePath.."img/combat/icons/damage_floraform.png")
 Location["combat/icons/damage_floraform.png"] = Point(-12, 22)
 
-modApi:appendAsset("img/combat/icons/icon_forest_burn_cover.png", Treeherders_ResourcePath.."img/combat/icons/icon_forest_burn_cover.png")
-Location["combat/icons/icon_forest_burn_cover.png"] = Point(-12, 22)
+modApi:appendAsset("img/combat/icons/icon_th_forest_burn_cover.png", Treeherders_ResourcePath.."img/combat/icons/icon_th_forest_burn_cover.png")
+Location["combat/icons/icon_th_forest_burn_cover.png"] = Point(-12, 22)
 
 
 --Projectiles
