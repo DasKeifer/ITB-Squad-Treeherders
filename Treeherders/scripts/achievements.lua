@@ -28,15 +28,17 @@ local achievements = {
 		id = "naturalist",
 		name = "True Naturalist",
 		tooltip = "Complete a mission without a vek dying",
-		image = mod.resourcePath .. "img/achievements/goodBoy.png",
+		image = mod.resourcePath .. "img/achievements/naturalist.png",
 		squad = squad,
 	},
 }
 
 local function isGame()
-	return true
-		and Game ~= nil
-		and GAME ~= nil
+	return Game ~= nil and GAME ~= nil
+end
+
+local function isRightSquad()
+	return isGame() and GAME.additionalSquadData.squad == squad
 end
 
 local function isInMission()
@@ -107,30 +109,32 @@ end
 
 -- Treehuggers & naturalist
 function TreeherdersAchievements.onMissionEndHook(mission)
-	if not achievements.treehugger:isComplete() then
-		forestCount, forestFireCount = countForestsAndForestFires()
-		if forestCount >= TreeherdersAchievements.treehuggerMinTrees and forestFireCount == 0 then
-			achievements.treehugger:trigger()
+	if isRightSquad() then
+		if not achievements.treehugger:isComplete() then
+			forestCount, forestFireCount = countForestsAndForestFires()
+			if forestCount >= TreeherdersAchievements.treehuggerMinTrees and forestFireCount == 0 then
+				achievements.treehugger:trigger()
+			end
 		end
-	end
-	
-	if not achievements.naturalist:isComplete() then
-		if totalNaturalistKills(getAchievementSaveData()) == 0 then
-			achievements.naturalist:trigger()
+		
+		if not achievements.naturalist:isComplete() then
+			if totalNaturalistKills(getAchievementSaveData()) == 0 then
+				achievements.naturalist:trigger()
+			end
 		end
 	end
 end
 
 -- Naturalist
 function TreeherdersAchievements.onMissionStartHook(mission)
-	if not achievements.naturalist:isComplete() then
+	if not achievements.naturalist:isComplete() and isRightSquad() then
 		getAchievementSaveData().achiev_naturalistMissionKills = 0
 	end
 end
 
 -- Naturalist
 function TreeherdersAchievements.onNextTurnHook(mission)
-	if not achievements.naturalist:isComplete() then
+	if not achievements.naturalist:isComplete() and isRightSquad() then
 		saveData = getAchievementSaveData()
 		-- Add the turn kills then clear the turn kills
 		saveData.achiev_naturalistMissionKills = totalNaturalistKills(saveData)
@@ -140,7 +144,7 @@ end
 
 -- Treehuggers
 function TreeherdersAchievements.onSkillBuildHook(mission, pawn, weaponId, p1, p2, skillEffect)
-	if not achievements.myfriends:isComplete() then				
+	if not achievements.myfriends:isComplete() and isRightSquad() then				
 		-- make sure we have the actual weaponid
 		if type(weaponId) == 'table' then
 			weaponId = weaponId.__Id
@@ -175,7 +179,7 @@ end
 
 -- Treehuggers
 function TreeherdersAchievements.onSkillEndHook(mission, pawn, weaponId, p1, p2)
-	if not achievements.myfriends:isComplete() then
+	if not achievements.myfriends:isComplete() and isRightSquad() then
 		-- make sure we have the actual weaponid
 		if type(weaponId) == 'table' then
 			weaponId = weaponId.__Id
@@ -189,7 +193,7 @@ end
 
 -- Naturalist
 function TreeherdersAchievements.onPawnKilledHook(mission, pawn)
-	if not achievements.naturalist:isComplete() then
+	if not achievements.naturalist:isComplete() and isRightSquad() then
 		if forestUtils.isAVek(pawn) then
 			getAchievementSaveData().achiev_naturalistTurnKills = getAchievementSaveData().achiev_naturalistTurnKills + 1
 		end
