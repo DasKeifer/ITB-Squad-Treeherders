@@ -1,11 +1,7 @@
-1. Revisit violent growth and Wake the Forest descriptions
-2. Mechs can never catch forest on fire? Might be too much a nerf on tree-venge
-3. Change forest firer to move anywhere in forest instead of fire from anywhere - less confusing
-4. Entborg cant start fires with any weapon
+2. Mechs (entborg specifically?) can never catch forest on fire? Might be too much a nerf on tree-venge
 
 Low
 1. Add description of some common things in readme files and forum thread
 2. Wake the forest teraforms sunken tiles ocassionally on flood maps
 3. More animations and SFX
 	a. Fire trees from forest?
-4. Investigate "fast decay" passive

@@ -24,8 +24,8 @@ local a = ANIMS
 a.th_entborg =         a.MechUnit:new{Image = "units/player/th_entborg.png",          PosX = -17, PosY = -11 }
 a.th_entborga =        a.MechUnit:new{Image = "units/player/th_entborg_a.png",        PosX = -17, PosY = -11, NumFrames = 4 }
 a.th_entborgw =        a.MechUnit:new{Image = "units/player/th_entborg_w.png",        PosX = -17, PosY = -9 }
-a.th_entborg_broken =  a.MechUnit:new{Image = "units/player/th_entborg_broken.png",   PosX = -17, PosY =  2 }
-a.th_entborgw_broken = a.MechUnit:new{Image = "units/player/th_entborg_w_broken.png", PosX = -20, PosY =  4 }
+a.th_entborg_broken =  a.MechUnit:new{Image = "units/player/th_entborg_broken.png",   PosX = -17, PosY =  -9 }
+a.th_entborgw_broken = a.MechUnit:new{Image = "units/player/th_entborg_w_broken.png", PosX = -20, PosY =  -7 }
 a.th_entborg_ns =      a.MechIcon:new{Image = "units/player/th_entborg_ns.png" }
 
 

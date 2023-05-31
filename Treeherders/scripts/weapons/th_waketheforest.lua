@@ -18,6 +18,7 @@ Treeherders_Passive_WakeTheForest = PassiveSkill:new
 	SeekMech = false,
 	
 	TipImage = {
+		CustomPawn = "Treeherders_ArbiformerMech",
 		Unit = Point(2, 1),
 		CustomPawn = "Scorpion1",
 		Enemy = Point(2, 2),
@@ -30,6 +31,7 @@ Treeherders_Passive_WakeTheForest_A = Treeherders_Passive_WakeTheForest:new
 {	
 	UpgradeDescription = "When a mech takes damage on a forest and would be set on fire, it is pushed to a safe adjacent tile (prefs rel. to atk: right, left, same, opposite)",
 	TipImage = {
+		CustomPawn = "Treeherders_ArbiformerMech",
 		Unit = Point(2, 1),
 		CustomPawn = "Scorpion2",
 		Enemy = Point(2, 2),
@@ -48,7 +50,6 @@ Treeherders_Passive_WakeTheForest_B = Treeherders_Passive_WakeTheForest:new
 		CustomPawn = "Treeherders_ArbiformerMech",
 		Forest = Point(2, 3),
 	},
-	
 	SeekMech = true,
 }
 

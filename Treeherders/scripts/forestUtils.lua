@@ -68,6 +68,12 @@ function forestUtils:getSpaceDamageWithoutSettingFire(p, damage, pushDir, allyIm
 		spaceDamage.iFire = EFFECT_REMOVE
 	end
 	
+	-- For some reason we AE, we have to reset if its a forest or else
+	-- the forest will disappear
+	if Board:GetTerrain(p) == TERRAIN_FOREST then
+		spaceDamage.iTerrain = TERRAIN_FOREST
+	end
+	
 	--cover up the forest fire icon
 	if sDamage > 0 and sDamage ~= DAMAGE_ZERO and Board:GetTerrain(p) == TERRAIN_FOREST and not Board:IsFire(p) then
 		spaceDamage.sImageMark = "combat/icons/icon_forest_burn_cover.png"

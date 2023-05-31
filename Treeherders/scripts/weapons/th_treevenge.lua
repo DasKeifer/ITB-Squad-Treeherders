@@ -2,7 +2,7 @@ Treeherders_Treevenge = Skill:new
 {
 	Name = "Tree-venge",
 	Class = "Prime",
-	Description = "Smash an adjacent tile and push surrounding tiles. Target damage increases for each forest fire to a max of four",
+	Description = "Smash an adjacent tile pushing surrounding tiles and damaging them by half. Target damage increases by forest fires / 2 (rounded up) to a max of 5",
 	Icon = "weapons/prime_th_treevenge.png",
 	Rarity = 1,
 	
@@ -12,17 +12,18 @@ Treeherders_Treevenge = Skill:new
 	Range = 1,
 	PathSize = 1,
 	Projectile = false,
-    Damage = 2,
-    PowerCost = 0,
+    Damage = 1,
+    PowerCost = 1,
     Upgrades = 2,
     UpgradeCost = { 1, 2 },
 	
 	--custom
-	BouncePerDamage = 3,
-	DoesSplashDamage = false,
-	GenForestTarget = true,
-	ForestsPerDamage = 1,
-	DamageCap = 4,
+	BouncePerDamage = 2,
+	ShakePerDamage = 0.1,
+	DoesSplashDamage = true,
+	GenForestTarget = false,
+	ForestsPerDamage = 2,
+	DamageCap = 5,
 	BuildingImmune = false,
 	
     TipImage = {
@@ -33,6 +34,8 @@ Treeherders_Treevenge = Skill:new
 		Building = Point(3,2),
 		Forest = Point(3,1),
 		Fire = Point(3,1),
+		Forest2 = Point(3,0),
+		Fire2 = Point(3,0),
 	},
 }
 
@@ -49,14 +52,16 @@ Treeherders_Treevenge_A = Treeherders_Treevenge:new
 		Building = Point(2,2),
 		Forest = Point(3,1),
 		Fire = Point(3,1),
+		Forest2 = Point(3,0),
+		Fire2 = Point(3,0),
 	},
 }
 
-Weapon_Texts.Treeherders_Treevenge_Upgrade2 = "Splash Damage"
+Weapon_Texts.Treeherders_Treevenge_Upgrade2 = "Short Tempered"
 Treeherders_Treevenge_B = Treeherders_Treevenge:new
 {
-	UpgradeDescription = "Surrounding tiles take half damage of the target damage in addition to being pushed",
-	DoesSplashDamage = true,
+	UpgradeDescription = "Damage increases for every forest fire",
+	ForestsPerDamage = 1,
 }
 
 Treeherders_Treevenge_AB = Treeherders_Treevenge_B:new
@@ -68,7 +73,8 @@ function Treeherders_Treevenge:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
 	
 	--determine the damage
-	local damage = self.Damage + math.floor(forestUtils.arrayLength(forestUtils:getSpaces(forestUtils.isAForestFire)) / self.ForestsPerDamage)
+	LOG("Forest fires: ".. forestUtils.arrayLength(forestUtils:getSpaces(forestUtils.isAForestFire)) .. ", damage per:" .. self.ForestsPerDamage)
+	local damage = self.Damage + math.ceil(forestUtils.arrayLength(forestUtils:getSpaces(forestUtils.isAForestFire)) / self.ForestsPerDamage)
 	
 	--cap it
 	if damage > self.DamageCap then
@@ -91,6 +97,7 @@ function Treeherders_Treevenge:GetSkillEffect(p1, p2)
 	
 	ret:AddDamage(currDamage)
 	ret:AddBounce(p2, damage * self.BouncePerDamage)
+	ret:AddBoardShake(damage * self.ShakePerDamage)
 	ret:AddDelay(0.2)
 	
 	--do the splash damage

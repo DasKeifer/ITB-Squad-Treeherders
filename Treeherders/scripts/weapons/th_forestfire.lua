@@ -1,6 +1,6 @@
 Treeherders_ForestFire = Skill:new{
 	Name = "Forest Fire",
-	Description = "Move to any space in the forect then fire dead logs, pushing attacked tiles. Creates a forest behind this mech",
+	Description = "Move to any space in the forest then fire dead logs, pushing attacked tiles and growing a forest. Also grows a forest behind this mech",
 	Class = "Ranged",
 	Icon = "weapons/ranged_th_forestFirer.png",
 	Rarity = 1,
@@ -9,6 +9,7 @@ Treeherders_ForestFire = Skill:new{
 	LaunchSound = "/weapons/artillery_volley",
 	ImpactSound = "/impact/generic/explosion",	
 	UpShot = "effects/shotup_th_deadtree.png",
+	UpShotOuter = "effects/shotup_th_deadtree.png",
 	Explosion = "",
 	BounceAmount = forestUtils.floraformBounce,
 	Upgrades = 2,
@@ -28,19 +29,20 @@ Treeherders_ForestFire = Skill:new{
 	
 	--TipImage
     TipImage = {
-		Unit = Point(2,3),
-		Target = Point(2,1),
+		Unit = Point(3,3),
 		Enemy = Point(2,1),
 		Building = Point(3,1),
 		Forest = Point(3,3),
-		Forest2 = Point(2,4),
+		Forest2 = Point(2,3),
+		Target = Point(2,3),
+		Second_Click = Point(2,1),
 	},
 }
 
-Weapon_Texts.Treeherders_ForestFire_Upgrade1 = "Splash"
+Weapon_Texts.Treeherders_ForestFire_Upgrade1 = "Spray"
 Treeherders_ForestFire_A = Treeherders_ForestFire:new
 {
-	UpgradeDescription = "Adds splash damage and push to the sides of the attack",
+	UpgradeDescription = "Deals 1 damage and pushes tiles to the left and right of the target",
 	DamageOuter = 1,
 }
 
@@ -51,7 +53,6 @@ Treeherders_ForestFire_B = Treeherders_ForestFire:new
 	UpgradeDescription = "The target takes two more damage",
 	UpShot = "effects/shotup_th_deadtree_3.png",
 	Damage = 3,
-	DamageOuter = 1,
 }
 
 Treeherders_ForestFire_AB = Treeherders_ForestFire_B:new
@@ -121,35 +122,33 @@ function Treeherders_ForestFire:GetFinalEffect(p1,p2,p3)
 	if Board:IsValid(pBack) and forestUtils.isSpaceFloraformable(pBack) then
 		forestUtils:floraformSpace(ret, pBack)
 	end
-
-	-- For some reason it seems like using this as a two stage weapons causes forests to
-	-- disappear on the second target tile so we manually reset it after the attack
-	-- TODO check how this works with fires/forest fires
-	local wasForest = forestUtils.isAForest(p3)
 		
 	local damage = forestUtils:getFloraformSpaceDamage(p3, self.Damage, attackDir, false, not self.BuildingDamage)
 	ret:AddBounce(p2, 1)
-	ret:AddArtillery(damage, self.UpShot)
-	if wasForest then
-		local backToForest = SpaceDamage(p3, 0)
-		backToForest.iTerrain = TERRAIN_FOREST
-		ret:AddDamage(backToForest)
-	end
 	
+	local mainDelay = FULL_DELAY
+	if self.DamageOuter > 0 then
+		mainDelay = 0
+	end
+	ret:AddArtillery(p2, damage, self.UpShot, mainDelay)
 	ret:AddBounce(p3, 1)
 	
 	if self.DamageOuter > 0 then
-		local dirs = {attackDir + 1, attackDir - 1}
-		for _, dir in pairs(dirs) do
-			dir = dir % 4
-			local currP = p3 + DIR_VECTORS[dir]
-			local sideDamage = forestUtils:getSpaceDamageWithoutSettingFire(currP, self.DamageOuter, attackDir, false, not self.BuildingDamage)
-			sideDamage.sAnimation = self.OuterAnimation..attackDir
-			
-			ret:AddDamage(sideDamage)
-			if self.BounceOuterAmount ~= 0 then	
-				ret:AddBounce(currP, self.BounceOuterAmount) 
-			end  
+		dir1 = (attackDir + 1) % 4
+		dir2 = (attackDir - 1) % 4
+		
+		local side1 = p3 + DIR_VECTORS[dir1]
+		local side2 = p3 + DIR_VECTORS[dir2]
+		
+		local side1Damage = forestUtils:getSpaceDamageWithoutSettingFire(side1, self.DamageOuter, attackDir, false, not self.BuildingDamage)
+		local side2Damage = forestUtils:getSpaceDamageWithoutSettingFire(side2, self.DamageOuter, attackDir, false, not self.BuildingDamage)
+
+		ret:AddArtillery(p2, side1Damage, self.UpShotOuter, 0)
+		ret:AddArtillery(p2, side2Damage, self.UpShotOuter, FULL_DELAY)
+		
+		if self.BounceOuterAmount ~= 0 then	
+			ret:AddBounce(side1, self.BounceOuterAmount) 
+			ret:AddBounce(side2, self.BounceOuterAmount) 
 		end
 	end
 	

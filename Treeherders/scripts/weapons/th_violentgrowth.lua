@@ -2,7 +2,7 @@ Treeherders_ViolentGrowth = Skill:new
 {
 	Name = "Violent Growth",
     Class = "Science",
-    Description = "Plants a forest in an unforested tile otherwise cancels target's attack. Expands conjoint forests one tile towards the closest enemy. Forest generation damages enemies",
+    Description = "Grows a forest in an unforested tile otherwise cancels target's attack. Expands connected forest one tile towards the closest enemy or closest spot to current position. Forest growth damages enemies",
 	Icon = "weapons/science_th_violentGrowth.png",
 	Rarity = 1,
 	
@@ -15,7 +15,7 @@ Treeherders_ViolentGrowth = Skill:new
 	PathSize = 1,
     Damage = 1,
 	
-    PowerCost = 1,
+    PowerCost = 0,
     Upgrades = 2,
     UpgradeCost = { 1, 1 },
 	
@@ -53,7 +53,7 @@ Treeherders_ViolentGrowth_A = Treeherders_ViolentGrowth:new
 Weapon_Texts.Treeherders_ViolentGrowth_Upgrade2 = "+2 Expansion"
 Treeherders_ViolentGrowth_B = Treeherders_ViolentGrowth:new
 {
-	UpgradeDescription = "Expand the targeted conjoint forests two extra tiles",
+	UpgradeDescription = "Expand the targeted forest two extra tiles",
 	ForestToExpand = 3,
 }
 
