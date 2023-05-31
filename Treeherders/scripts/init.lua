@@ -16,8 +16,8 @@ function mod:init()
 	require(self.scriptPath .. "images")
 	require(self.scriptPath .. "palettes")
 
-	-- Achievements... TBD
-	-- require(self.scriptPath .. "achievements")
+	-- Achievements
+	require(self.scriptPath .. "achievements")
 
 	-- Libs
 	require(self.scriptPath .. "libs/passiveEffect")
@@ -37,10 +37,7 @@ function mod:init()
 	require(self.scriptPath .. "weapons/th_waketheforest")
 	
 	-- Shop... TBD
-	-- modApi:addWeaponDrop("truelch_M10THowitzerArtillery")
-	
-	--Tutorial tips... TBD
-	--require(self.scriptPath .. "tips")
+	-- modApi:addWeaponDrop("...")
 end
 
 function mod:load(options, version)
@@ -58,6 +55,7 @@ function mod:load(options, version)
 	)
 	
 	--todo remove when pulled into modUtils
+	TreeherdersAchievements:addHooks()
 	predictableRandom:registerAutoRollHook()
 	passiveEffect:addHooks()
 	passiveEffect:autoSetWeaponsPassiveFields()

@@ -91,6 +91,7 @@ end
 function Treeherders_ForestFire:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
 	if p1 ~= p2 then
+		-- TODO: Make cool move effect like Seismic Beast's Amonzite Drill
 		ret:AddTeleport(p1,p2,FULL_DELAY)
 	else
 		ret:AddDamage(SpaceDamage(p1,0))

@@ -1,4 +1,3 @@
---TODO: Choosing sunken tiles -- same modapiext issue?
 Treeherders_Passive_WakeTheForest = PassiveSkill:new
 {
 	Name = "Wake the Forest",
@@ -385,17 +384,9 @@ end
 -- It doesn't recognize that tiles became water in the flood event. next turn hook can
 -- be used but it happens after vek attack so it defeats the point of the seek mech
 -- ability
-function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_PostEnvironmentHook(mission)
+function Treeherders_Passive_WakeTheForest:GetPassiveSkillEffect_PreEnvironmentHook(mission)
 	--always re-evaluate the icons - this covers environment effects like floods
 	self:RefreshForestArmorIconToAllMechs()
-	
-	--StartEffect will be true for the first time and env effect is called
-	--EndEffect will be false for the last time and env effect is called
-	--if this is not the last environment effect, return
-	
-	if mission.LiveEnvironment.eventDispatched ~= nil then	
-		return
-	end
 
 	--floraform the spaces
 	self:FloraformSpaces()
@@ -439,4 +430,4 @@ passiveEffect:addPassiveEffect("Treeherders_Passive_WakeTheForest",
 		{"skillBuildHook", "finalEffectBuildHook", 
 		"skillEndHook", "finalEffectEndHook",
 		"queuedSkillEndHook", "queuedFinalEffectEndHook",
-		"postEnvironmentHook"})
+		"preEnvironmentHook"})

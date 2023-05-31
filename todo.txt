@@ -1,7 +1,5 @@
-2. Mechs (entborg specifically?) can never catch forest on fire? Might be too much a nerf on tree-venge
+1. Mechs (entborg specifically?) can never catch forest on fire? Might be too much a nerf on tree-venge
 
 Low
-1. Add description of some common things in readme files and forum thread
-2. Wake the forest teraforms sunken tiles ocassionally on flood maps
-3. More animations and SFX
-	a. Fire trees from forest?
+1. More animations and SFX?
+	a. Forest fire burrow effect

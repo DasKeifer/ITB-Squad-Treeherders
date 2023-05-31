@@ -17,7 +17,7 @@ Treeherders_ViolentGrowth = Skill:new
 	
     PowerCost = 0,
     Upgrades = 2,
-    UpgradeCost = { 1, 1 },
+    UpgradeCost = { 1, 2 },
 	
 	-- custom options
 	ForestDamageBounce = -2,
@@ -26,11 +26,10 @@ Treeherders_ViolentGrowth = Skill:new
 	
 	PushTarget = false,
 	SeekVek = true,
-	SlowEnemyMaxMove = 2,
 	
 	ForestToExpand = 1,
 	SlowEnemy = false,
-	SlowEnemyAmount = 2,
+	SlowEnemyAmount = 3,
 	MinEnemyMove = 1,
 	
     TipImage = {
@@ -46,7 +45,7 @@ Treeherders_ViolentGrowth = Skill:new
 Weapon_Texts.Treeherders_ViolentGrowth_Upgrade1 = "Ensnare"
 Treeherders_ViolentGrowth_A = Treeherders_ViolentGrowth:new
 {
-	UpgradeDescription = "For one turn all vek in the targetted forest lose two movement (minmum of 1)",
+	UpgradeDescription = "For one turn all vek in the targetted forest lose three movement (minmum of 1)",
 	SlowEnemy = true,
 }
 
@@ -66,7 +65,6 @@ function Treeherders_ViolentGrowth:GetSkillEffect(p1, p2)
 	local ret = SkillEffect()
 	local attackDir = GetDirection(p2 - p1)
 	
-	
 	----- For the main target ------
 	local pushDir = nil
 	if self.PushTarget then
@@ -75,7 +73,8 @@ function Treeherders_ViolentGrowth:GetSkillEffect(p1, p2)
 		
 	--if it is a forest, cancel the target's attack
 	if forestUtils.isAForest(p2) then
-		forestUtils:cancelAttack(p2, ret)
+		ret:AddDamage(forestUtils:getSpaceDamageWithoutSettingFire(p2, self.Damage, pushDir, true, true))
+		forestUtils:addCancelEffect(p2, ret)
 		ret:AddBounce(p2, self.NonForestBounce)
 	
 	--if it can be floraformed, do so
@@ -99,11 +98,13 @@ function Treeherders_ViolentGrowth:GetSkillEffect(p1, p2)
 	local expansionFocus = p1
 	if self.SeekVek then
 		local vekPositions = {}
-		for _, v in pairs(extract_table(Board:GetPawns(TEAM_ENEMY))) do
-			local vPos = Board:GetPawnSpace(v)
-			-- exclude if the vek is the target or already is in a forest
-			if (vPos ~= p2) and not forestUtils.isAForest(vPos) then
-				vekPositions[forestUtils:getSpaceHash(vPos)] = vPos
+		for _, v in pairs(extract_table(Board:GetPawns(TEAM_ANY))) do
+			if forestUtils.isAVek(Board:GetPawn(v)) then
+				local vPos = Board:GetPawnSpace(v)
+				-- exclude if the vek is the target or already is in a forest
+				if (vPos ~= p2) and not forestUtils.isAForest(vPos) then
+					vekPositions[forestUtils:getSpaceHash(vPos)] = vPos
+				end
 			end
 		end
 		

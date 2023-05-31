@@ -10,6 +10,23 @@ function forestUtils.arrayLength(array)
 	return count
 end
 
+local botNames = {"Snowtank", "Snowart", "Snowlaser", "Snowmine", "BotBoss"}
+function forestUtils.isAVek(pawn)
+	-- The bots don't use TEAM_BOT so we have to manually sort them out but
+	-- still exclude it anyways
+	local isVek = false
+	if pawn:GetTeam() == TEAM_ENEMY or pawn:GetTeam() == TEAM_ENEMY_MAJOR then
+		isVek = true
+		for _, botName in pairs(botNames) do
+			if string.sub(pawn:GetType(), 1 , string.len(botName)) == botName then
+				isVek = false
+				break
+			end
+		end	
+	end
+	return isVek
+end
+
 
 -------------------  FOREST CHECKER FUNCTIONS  ----------------------------
 
@@ -127,7 +144,7 @@ local function randFloraformDamage(effect, point, damage, pushDir, damageOnlyEne
 end
 
 function forestUtils:floraformNumOfRandomSpaces(effect, randId, candidates, numToForm, damage, pushDir,
-					damageOnlyEnemy, allyImmune, buildingImmune, seekMech, seekVek, randSalt, skipFloraformableCheck)
+					damageOnlyEnemy, allyImmune, buildingImmune, seekMech, seekEnemy, randSalt, skipFloraformableCheck)
 	damage = damage or DAMAGE_ZERO
 	
 	--remove any points that can't be floraformed
@@ -159,10 +176,10 @@ function forestUtils:floraformNumOfRandomSpaces(effect, randId, candidates, numT
 		local leftToFloraForm = numToForm
 		
 		local preferred = {}
-		if seekMech or seekVek then	
+		if seekMech or seekEnemy then	
 			for k, v in pairs(candidates) do
 				local unit = Board:GetPawn(v)
-				if unit and ((seekVek and unit:IsEnemy()) or (seekMech and unit:IsMech())) then
+				if unit and ((seekEnemy and unit:IsEnemy()) or (seekMech and unit:IsMech())) then
 					preferred[k] = v
 				end
 			end		
@@ -208,7 +225,7 @@ end
 --TODO remove once isolated to library or mod utils
 -------------------  TEMP FUNCTIONS  ----------------------------
 
-function forestUtils:cancelAttack(p, effect)
+function forestUtils:addCancelEffect(p, effect)
 	effect:AddScript([[
 		local enemy = Board:GetPawn(Point(]]..p.x..","..p.y..[[))
 		if enemy then
@@ -217,7 +234,6 @@ function forestUtils:cancelAttack(p, effect)
 		end
 		Board:Ping(]].. p:GetString() ..[[, GL_Color(210, 210, 210, 0))
 	]])
-	effect:AddDamage(SpaceDamage(p, DAMAGE_ZERO))
 end
 
 function forestUtils:getTileFireType(point)
