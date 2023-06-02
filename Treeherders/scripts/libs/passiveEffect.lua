@@ -130,8 +130,72 @@ function passiveEffect:checkAndAddIfPassive(weaponTable, owningPawnId)
 	end
 end
 
+function passiveEffect:checkAndAddIfPassiveByPoweredWeaponName(weaponNameWithSuffix, owningPawnId)
+	--for each hook that has possible passive effects
+	for hook, weaponsWithPassives in pairs(passiveEffectData.possibleEffects) do
+		if addPassiveEffectDebug then LOG("Checking passive weapons for hook: "..hook) end
+		
+		--for each passive weapon of this hook
+		for i, weapon in pairs(weaponsWithPassives) do
+			if addPassiveEffectDebug then LOG("Checking known passive weapon id: "..weapon) end
+			
+			--check the id and if it matches then add the effect to the list of effects to execute for this hook
+			if string.sub(weaponNameWithSuffix,1,string.len(weapon)) == weapon then
+				if addPassiveEffectDebug then LOG("FOUND POWERED PASSIVE WEAPON!: "..weaponNameWithSuffix) end
+				
+				--get the weapon object and the effect function to use when the hook is fired
+				local wObj = _G[weaponNameWithSuffix]
+				local wEffect = wObj[getFunctionNameForHook(hook)]
+				
+				--get the list of active effects associated with the hook or create it
+				local hookTable = passiveEffectData.activeEffects[hook]
+				if not hookTable then
+					hookTable = {}
+					passiveEffectData.activeEffects[hook] = hookTable
+				end
+				
+				--add the weapon and effect to the list of active passive effects for this hook
+				local data = {}
+				data.weapon = wObj
+				data.effect = wEffect
+				data.pawnId = owningPawnId --don't use Board:getPawn() bcause Board may not exist yet
+				table.insert(hookTable, data)
+			end
+		end
+	end
+end
+
 --function that is called on mission start or when continuing a mission to determine
 --which passive effects are required
+function passiveEffect.determineIfPassivesAreActiveFromSaveData(mission)
+	if addPassiveEffectDebug then LOG("Determining what Passive Effects are active(powered)...") end
+
+	--clear the previous list of active effects
+	passiveEffect.clearActivePassives(mission)
+	
+	--loop through the player mechs to see if they have one of the passive weapons equiped and powered
+	local pawns = passiveEffect:getAllSavedPawnData()
+	for _, pawnData in pairs(pawns) do
+		if addPassiveEffectDebug then LOG("Checking pawn: "..pawnData.type) end
+		
+        --get theweapon data
+        local primary = modapiext.pawn:getWeaponData(pawnData, "primary")
+        local secondary = modapiext.pawn:getWeaponData(pawnData, "secondary")
+    
+        --if it has a primary then check if it is in the passive effects list
+        if primary.id then
+            if addPassiveEffectDebug then LOG("Checking primary weapon: "..primary.id) end
+            passiveEffect:checkAndAddIfPassive(primary, pawnData.id)
+		end
+		       
+	   --if it has a secondary then check if it is in the passive effects list
+        if secondary.id then
+            if addPassiveEffectDebug then LOG("Checking secondary weapon: "..secondary.id) end
+            passiveEffect:checkAndAddIfPassive(secondary, pawnData.id)
+		end
+	end
+end
+
 function passiveEffect.determineIfPassivesAreActive(mission)
 	if addPassiveEffectDebug then LOG("Determining what Passive Effects are active(powered)...") end
 
@@ -139,24 +203,16 @@ function passiveEffect.determineIfPassivesAreActive(mission)
 	passiveEffect.clearActivePassives(mission)
 	
 	--loop through the player mechs to see if they have one of the passive weapons equiped and powered
-	local mechsData = passiveEffect:getAllMechsTables()
-	for _, mechData in pairs(mechsData) do
-		if addPassiveEffectDebug then LOG("Checking mech: "..mechData.type) end
+	local pawns = Board:GetPawns(TEAM_ANY)
+	for _, pawnId in pairs(extract_table(pawns)) do
+		if addPassiveEffectDebug then LOG("Checking pawn: "..pawnId) end
 		
-		--get the mech's weapon data
-		local primary = modapiext.pawn:getWeaponData(mechData, "primary")
-		local secondary = modapiext.pawn:getWeaponData(mechData, "secondary")
-	
-		--if it has a primary then check if it is in the passive effects list
-		if primary.id then
-			if addPassiveEffectDebug then LOG("Checking primary weapon: "..primary.id) end
-			passiveEffect:checkAndAddIfPassive(primary, mechData.id)
-		end
-		
-		--if it has a secondary then check if it is in the passive effects list
-		if secondary.id then
-			if addPassiveEffectDebug then LOG("Checking secondary weapon: "..secondary.id) end
-			passiveEffect:checkAndAddIfPassive(secondary, mechData.id)
+		--get the weapon data
+		local pawn = Board:GetPawn(pawnId) 
+		local weapons = pawn:GetPoweredWeaponTypes() 
+		for _, result in pairs(weapons) do
+			LOG("Weapon " .. tostring(result))
+			passiveEffect:checkAndAddIfPassiveByPoweredWeaponName(result, pawnId)
 		end
 	end
 end
@@ -205,7 +261,7 @@ end
 --This should only be called once for all instances of ModUtils!
 function passiveEffect:addHooks()
 	modApi:addMissionStartHook(self.determineIfPassivesAreActive) --covers starting a new 
-	modApi:addPostLoadGameHook(self.determineIfPassivesAreActive) --covers loading into (continuing) a mission
+	modApi:addPostLoadGameHook(self.determineIfPassivesAreActiveFromSaveData) --covers loading into (continuing) a mission
 	modApi:addMissionNextPhaseCreatedHook(self.determineIfPassivesAreActive) --covers transition from first phase of final fight to second phase
 	modApi:addMissionEndHook(self.clearActivePassives) --covers ending a mission (prevents adding multiple times)`
 	
@@ -226,40 +282,36 @@ end
 		
 		
 --TODO remove once incorperated into modUtils
-		
-		
+
 --returns all the player mechs in the passed source table. If the table
 --is omitted it will determine the table to use.
 --This is a modified version of the pawn:getSavedataTable() function
-function passiveEffect:getAllMechsTables(sourceTable)
-    mechsData = {}
+function passiveEffect:getAllSavedPawnData(sourceTable)
+    pawnsIds = {}
     if sourceTable then
         --look through each item in the table for mechs
         for k, v in pairs(sourceTable) do
             --player mechs keys start with pawn and have the mech flag set to true
-            if type(v) == "table" and v.mech and modApi:stringStartsWith(k, "pawn") then
-                mechsData[#mechsData+1] = v
+            if type(v) == "table" and modApi:stringStartsWith(k, "pawn") then
+                pawnsIds[#pawnsIds+1] = v
             end
         end    
         
         --if we found some mechs then return their data
-        if #mechsData > 0 then
-            return mechsData
+        if #pawnsIds > 0 then
+            return pawnsIds
         end
     else
         --determine what table to use and call ourselves with that one
         local region = modapiext.board:getCurrentRegion()
-        local ptable = self:getAllMechsTables(SquadData)
-        if not ptable and region then
-            ptable = self:getAllMechsTables(region.player.map_data)
-        end
-
-        return ptable
+        return self:getAllSavedPawnData(region.player.map_data)
     end
 
-    --if we didn't find any mechs return nil
+    --if we didn't find any pawns return nil
     return nil
-end		
+end        
+        
+
 		
 --Returns the upgrade suffix of the weapon i.e. _A,_B,_AB, or empty
 function passiveEffect:getUpgradeSuffix(wtable)

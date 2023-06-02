@@ -23,8 +23,8 @@ end
 local a = ANIMS
 a.th_arbiformer =         a.MechUnit:new{Image = "units/player/th_arbiformer.png",          PosX = -22, PosY = -7 }
 a.th_arbiformera =        a.MechUnit:new{Image = "units/player/th_arbiformer_a.png",        PosX = -22, PosY = -7, NumFrames = 4 }
-a.th_arbiformerw =        a.MechUnit:new{Image = "units/player/th_arbiformer_w.png",        PosX = -22, PosY = -6 }
-a.th_arbiformer_broken =  a.MechUnit:new{Image = "units/player/th_arbiformer_broken.png",   PosX = -22, PosY =  2 }
+a.th_arbiformerw =        a.MechUnit:new{Image = "units/player/th_arbiformer_w.png",        PosX = -22, PosY =  2 }
+a.th_arbiformer_broken =  a.MechUnit:new{Image = "units/player/th_arbiformer_broken.png",   PosX = -22, PosY =  -5 }
 a.th_arbiformerw_broken = a.MechUnit:new{Image = "units/player/th_arbiformer_w_broken.png", PosX = -22, PosY =  5 }
 a.th_arbiformer_ns =      a.MechIcon:new{Image = "units/player/th_arbiformer_ns.png" }
 

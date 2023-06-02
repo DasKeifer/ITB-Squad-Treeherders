@@ -23,9 +23,9 @@ end
 local a = ANIMS
 a.th_forestfirer =         a.MechUnit:new{Image = "units/player/th_forestfirer.png",          PosX = -19, PosY = 5 }
 a.th_forestfirera =        a.MechUnit:new{Image = "units/player/th_forestfirer_a.png",        PosX = -19, PosY = 5, NumFrames = 4 }
-a.th_forestfirerw =        a.MechUnit:new{Image = "units/player/th_forestfirer_w.png",        PosX = -19, PosY = 5 }
-a.th_forestfirer_broken =  a.MechUnit:new{Image = "units/player/th_forestfirer_broken.png",   PosX = -19, PosY = 10 }
-a.th_forestfirerw_broken = a.MechUnit:new{Image = "units/player/th_forestfirer_w_broken.png", PosX = -19, PosY = 10 }
+a.th_forestfirerw =        a.MechUnit:new{Image = "units/player/th_forestfirer_w.png",        PosX = -19, PosY = 10 }
+a.th_forestfirer_broken =  a.MechUnit:new{Image = "units/player/th_forestfirer_broken.png",   PosX = -19, PosY = 6 }
+a.th_forestfirerw_broken = a.MechUnit:new{Image = "units/player/th_forestfirer_w_broken.png", PosX = -19, PosY = 15 }
 a.th_forestfirer_ns =      a.MechIcon:new{Image = "units/player/th_forestfirer_ns.png" }
 
 
