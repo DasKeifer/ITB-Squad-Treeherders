@@ -1,13 +1,13 @@
 local mod = {
-	id = "eplanum_treeherders",
+	id = "redactedrice_treeherders",
 	name = "Treeherders",
 	icon = "img/mod_icon.png",
 	version = "0.10.1",
-	modApiVersion = "2.9.2",
-	gameVersion = "1.2.88",
+	modApiVersion = "2.9.4",
+	gameVersion = "1.2.93",
 	dependencies = {
         modApiExt = "1.21",
-        memedit = "1.1.4",
+        memedit = "1.2.0",
     }
 }
 
