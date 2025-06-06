@@ -1,9 +1,9 @@
 TODO this release:
+1. Fix tool tip for violent growth
+2. Fix tool tip for forest firer (and maybe weapon)
+3. Forest fire burrow effect?
+4. Other Fxs evaluation
 
 Next release candidates:
-1. Mechs (entborg specifically?) can never catch forest on fire? Might be too much a nerf on tree-venge
-2. Make entborg a cyborg?
-3. violent growth choose spot to expand to?
-4. Forest fire burrow effect?
-5. Treevac doesn't distinguish between damage in the attack that causes the push vs follow on attacks when checking for spaces to push to
-6. Violent growth attack cancelled when attacking allies
+1. ? Treevac doesn't distinguish between damage in the attack that causes the push vs follow on attacks when checking for spaces to push to
+2. ? Violent growth attack cancelled when attacking allies
