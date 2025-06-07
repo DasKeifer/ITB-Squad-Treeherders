@@ -24,6 +24,7 @@ Treeherders_ForestFire = Skill:new{
 	-- Custom
 	PushOuter = false,
 	DamageOuter = 0,
+	BounceInnerAmount = 2,
 	BounceOuterAmount = 2,
 	BuildingDamage = true,
 	
@@ -53,6 +54,7 @@ Treeherders_ForestFire_B = Treeherders_ForestFire:new
 	UpgradeDescription = "Primary target takes two more damage",
 	UpShot = "effects/shotup_th_deadtree_3.png",
 	Damage = 3,
+	BounceInnerAmount = 4,
 }
 
 Treeherders_ForestFire_AB = Treeherders_ForestFire_B:new
@@ -132,13 +134,7 @@ function Treeherders_ForestFire:GetFinalEffect(p1,p2,p3)
 	local damage = forestUtils:getFloraformSpaceDamage(p3, self.Damage, attackDir, false, not self.BuildingDamage)
 	ret:AddBounce(p2, 1)
 	
-	local mainDelay = FULL_DELAY
-	if self.DamageOuter > 0 then
-		mainDelay = 0
-	end
-	ret:AddArtillery(p2, damage, self.UpShot, mainDelay)
-	ret:AddBounce(p3, 1)
-	
+	ret:AddArtillery(p2, damage, self.UpShot, NO_DELAY)
 	if self.DamageOuter > 0 then
 		dir1 = (attackDir + 1) % 4
 		dir2 = (attackDir - 1) % 4
@@ -149,14 +145,17 @@ function Treeherders_ForestFire:GetFinalEffect(p1,p2,p3)
 		local side1Damage = forestUtils:getSpaceDamageWithoutSettingFire(side1, self.DamageOuter, attackDir, false, not self.BuildingDamage)
 		local side2Damage = forestUtils:getSpaceDamageWithoutSettingFire(side2, self.DamageOuter, attackDir, false, not self.BuildingDamage)
 
-		ret:AddArtillery(p2, side1Damage, self.UpShotOuter, 0)
-		ret:AddArtillery(p2, side2Damage, self.UpShotOuter, FULL_DELAY)
+		ret:AddArtillery(p2, side1Damage, self.UpShotOuter, NO_DELAY)
+		ret:AddArtillery(p2, side2Damage, self.UpShotOuter, NO_DELAY)
 		
+		ret:AddDelay(0.8)
 		if self.BounceOuterAmount ~= 0 then	
 			ret:AddBounce(side1, self.BounceOuterAmount) 
 			ret:AddBounce(side2, self.BounceOuterAmount) 
 		end
+	else
+		ret:AddDelay(0.8)
 	end
-	
+	ret:AddBounce(p3, self.BounceInnerAmount)	
 	return ret
 end

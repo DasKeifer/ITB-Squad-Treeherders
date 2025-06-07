@@ -35,11 +35,12 @@ Treeherders_ViolentGrowth = Skill:new
 	
     TipImage = {
 		Unit = Point(2,3),
-		Target = Point(2,2),
 		Enemy = Point(2,2),
 		Enemy2 = Point(1,1),
 		Forest = Point(2,2),
 		Forest2 = Point(1,2),
+		Target = Point(2,2),
+		Second_Click = Point(1,1),
 	},
 }
 
@@ -83,7 +84,7 @@ function Treeherders_ViolentGrowth:GetSkillEffect(p1, p2)
 	
 	--if it can be floraformed, do so
 	elseif forestUtils.isSpaceFloraformable(p2) then
-		forestUtils:floraformSpace(ret, p2, self.Damage, nil, false, true)
+		forestUtils:floraformSpace(ret, p2, self.Damage, nil, true, true)
 		
 	--otherwise just damage it
 	else
@@ -140,12 +141,7 @@ function Treeherders_ViolentGrowth:GetFinalEffect(p1, p2, p3)
 	end
 	
 	if forestUtils.isSpaceFloraformable(p3) then
-		-- dont damage self
-		if p3 == p1 then
-			forestUtils:floraformSpace(ret, p3, 0, nil, false, true)
-		else
-			forestUtils:floraformSpace(ret, p3, self.Damage, nil, false, true)
-		end
+		forestUtils:floraformSpace(ret, p3, self.Damage, nil, true, true)
 	end
 	
 	local numLeft = self.ForestToExpand

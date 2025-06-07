@@ -304,7 +304,9 @@ function passiveEffect:getAllSavedPawnData(sourceTable)
     else
         --determine what table to use and call ourselves with that one
         local region = modapiext.board:getCurrentRegion()
-        return self:getAllSavedPawnData(region.player.map_data)
+		if region then
+			return self:getAllSavedPawnData(region.player.map_data)
+		end
     end
 
     --if we didn't find any pawns return nil
